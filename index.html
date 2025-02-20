@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="tugas.css">
+    <title>Tugas Function JS</title>
+</head>
+<body>
+    <h1>Tugas Function JS</h1>
+    <h2>Bintang X RPL</h2>
+
+    <!-- Diskon -->
+    <div class="container">
+        <h3>Discount Calculation</h3>
+        <label for="realPrice">Harga Asli:</label>
+        <input type="number" id="realPrice" placeholder="Masukkan harga asli">
+        <label for="persenDiskon">Persen Diskon:</label>
+        <input type="number" id="persenDiskon" placeholder="Masukkan persen diskon">
+        <button onclick="hitungDiskon()">Hitung Diskon</button>
+        <p id="hasilDiskon"></p>
+        <p id="hargaSetelahDiskon"></p>
+    </div>
+
+    <!-- Konversi Suhu -->
+    <div class="container">
+        <h3>Temperature Conversion</h3>
+        <input type="number" id="inputSuhu" placeholder="Masukkan suhu">
+        <select id="dariSatuan">
+            <option value="C">Celsius</option>
+            <option value="F">Fahrenheit</option>
+            <option value="K">Kelvin</option>
+            <option value="R">Reamur</option>
+        </select>
+        <select id="keSatuan">
+            <option value="C">Celsius</option>
+            <option value="F">Fahrenheit</option>
+            <option value="K">Kelvin</option>
+            <option value="R">Reamur</option>
+        </select>
+        <button onclick="konversiSuhu()">Konversi</button>
+        <div id="hasilSuhu"></div>
+    </div>
+
+    <div class="container">
+        <h3>Simple Calculator</h3>
+        <input type="number" id="angka1" placeholder="Masukkan angka pertama">
+        <select id="operator">
+            <option value="+">+</option>
+            <option value="-">-</option>
+            <option value="*">×</option>
+            <option value="/">÷</option>
+        </select>
+        <input type="number" id="angka2" placeholder="Masukkan angka kedua">
+        <button onclick="hitung()">Hitung</button>
+        <p id="hasilKalkulator"></p>
+    </div>
+
+    <!-- Model KTP -->
+    <div class="container">
+        <h3>Model KTP</h3>
+        <input type="text" id="nama" placeholder="Nama">
+        <input type="text" id="nik" placeholder="NIK">
+        <input type="text" id="ttl" placeholder="Tempat, Tanggal Lahir">
+        <select id="jenisKelamin">
+            <option value="Laki-laki">Laki-laki</option>
+            <option value="Perempuan">Perempuan</option>
+        </select>
+        <input type="text" id="alamat" placeholder="Alamat">
+        <input type="text" id="pekerjaan" placeholder="Pekerjaan">
+        <button onclick="tampilkanKTP()">Tampilkan KTP</button>
+
+    <div id="hasilKTP"></div>
+    </div>
+
+    <script>
+        /// Diskon ///
+        function hitungDiskon() {
+            var realPrice = parseFloat(document.getElementById("realPrice").value);
+            var persenDiskon = parseFloat(document.getElementById("persenDiskon").value);
+
+            if (isNaN(realPrice) || isNaN(persenDiskon)) {
+                alert("Masukkan angka yang valid!");
+                return;
+            }
+
+            var diskon = (realPrice * persenDiskon) / 100;
+            var hargaSetelahDiskon = realPrice - diskon;
+
+            document.getElementById("hasilDiskon").textContent = "Diskon: Rp. " + diskon.toFixed(2);
+            document.getElementById("hargaSetelahDiskon").textContent = "Harga setelah diskon: Rp. " + hargaSetelahDiskon.toFixed(2);
+        }
+
+        function hitung() {
+            let angka1 = parseFloat(document.getElementById("angka1").value);
+            let angka2 = parseFloat(document.getElementById("angka2").value);
+            let operator = document.getElementById("operator").value;
+            let hasil;
+
+            if (isNaN(angka1) || isNaN(angka2)) {
+                hasil = "Masukkan angka yang valid!";
+            } else {
+                switch (operator) {
+                    case "+":
+                        hasil = angka1 + angka2;
+                        break;
+                    case "-":
+                        hasil = angka1 - angka2;
+                        break;
+                    case "*":
+                        hasil = angka1 * angka2;
+                        break;
+                    case "/":
+                        hasil = angka2 !== 0 ? angka1 / angka2 : "Tidak bisa dibagi nol!";
+                        break;
+                    default:
+                        hasil = "Operator tidak valid!";
+                }
+            }
+
+            document.getElementById("hasilKalkulator").textContent = `Hasil: ${hasil}`;
+        }
+
+        /// Konversi Suhu ///
+        function konversiSuhu() {
+            let nilai = parseFloat(document.getElementById("inputSuhu").value);
+            let dari = document.getElementById("dariSatuan").value;
+            let ke = document.getElementById("keSatuan").value;
+            let hasil = "";
+
+            if (isNaN(nilai)) {
+                hasil = "Masukkan angka yang valid!";
+            } else {
+                let suhuDalamC;
+
+                if (dari === "C") suhuDalamC = nilai;
+                else if (dari === "F") suhuDalamC = (nilai - 32) * 5 / 9;
+                else if (dari === "K") suhuDalamC = nilai - 273.15;
+                else if (dari === "R") suhuDalamC = nilai * 5 / 4;
+
+                let hasilAkhir;
+                
+                if (ke === "C") hasilAkhir = suhuDalamC;
+                else if (ke === "F") hasilAkhir = (suhuDalamC * 9 / 5) + 32;
+                else if (ke === "K") hasilAkhir = suhuDalamC + 273.15;
+                else if (ke === "R") hasilAkhir = suhuDalamC * 4 / 5;
+
+                hasil = `<p><strong>Hasil:</strong> ${hasilAkhir.toFixed(2)}°${ke}</p>`;
+            }
+
+            document.getElementById("hasilSuhu").innerHTML = hasil;
+        }
+
+        /// Menampilkan Data ///
+        function tampilkanData() {
+            let data = [
+                { nama: "Tempat A", lokasi: "Jakarta", rating: 4.5 },
+                { nama: "Tempat B", lokasi: "Bandung", rating: 4.7 },
+                { nama: "Tempat C", lokasi: "Surabaya", rating: 4.3 }
+            ];
+
+            let html = "";
+            data.forEach(item => {
+                html += `
+                    <div class="card">
+                        <h3>${item.nama}</h3>
+                        <p><strong>Lokasi:</strong> ${item.lokasi}</p>
+                        <p><strong>Rating:</strong> ⭐ ${item.rating}</p>
+                    </div>
+                `;
+            });
+
+            document.getElementById("dataContainer").innerHTML = html;
+        }
+
+        function tampilkanKTP() {
+            let nama = document.getElementById("nama").value;
+            let nik = document.getElementById("nik").value;
+            let ttl = document.getElementById("ttl").value;
+            let jenisKelamin = document.getElementById("jenisKelamin").value;
+            let alamat = document.getElementById("alamat").value;
+            let pekerjaan = document.getElementById("pekerjaan").value;
+
+            if (!nama || !nik || !ttl || !alamat || !pekerjaan) {
+                document.getElementById("hasilKTP").innerHTML = "Lengkapi semua data!";
+                return;
+            }
+
+            document.getElementById("hasilKTP").innerHTML = `
+                <div class="ktp">
+                    <h3>KARTU TANDA PENDUDUK</h3>
+                    <p><strong>NIK:</strong> ${nik}</p>
+                    <p><strong>Nama:</strong> ${nama}</p>
+                    <p><strong>TTL:</strong> ${ttl}</p>
+                    <p><strong>Jenis Kelamin:</strong> ${jenisKelamin}</p>
+                    <p><strong>Alamat:</strong> ${alamat}</p>
+                    <p><strong>Pekerjaan:</strong> ${pekerjaan}</p>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>
